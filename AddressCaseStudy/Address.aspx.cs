@@ -14,30 +14,32 @@ namespace AddressCaseStudy
     {
         AddressController objAddress = new AddressController();
         string[] resultAddress = null;
-        protected void Page_Load(object sender, EventArgs e)
+        public void Page_Load(object sender, EventArgs e)
         {
             resultAddress = objAddress.getAddressFromTXT();
         }
 
-        protected void submitaddress_Click(object sender, EventArgs e)
+        public void submitaddress_Click(object sender, EventArgs e)
         {
             displayCalculatedFiveAddresses();
         }
 
-        private void displayCalculatedFiveAddresses()
+        public void displayCalculatedFiveAddresses()
         {
-            List<KeyValuePair<string, int>> distance= objAddress.topFiveAddresses(destination.Value.ToLower(), resultAddress);
-            //List<KeyValuePair<string, int>> distance = topFiveAddresses(destination.Value.ToLower());
+            List<KeyValuePair<string, int>> distance = objAddress.topFiveAddresses(destination.Value.ToLower(), resultAddress);
             Label disLoc = new Label();
             disLoc.Text = "5 closest locations";
             disLoc.Style.Value = "font-weight:bold";
             topFive.Controls.Add(disLoc);
-            foreach (var (item, dynamicLabel) in from item in distance
-                                                 let dynamicLabel = new Label()
-                                                 select (item, dynamicLabel))
+            if (distance != null)
             {
-                dynamicLabel.Text = item.Key+"|||| Distance="+item.Value+"KM";
-                topFive.Controls.Add(dynamicLabel);
+                foreach (var (item, dynamicLabel) in from item in distance
+                                                     let dynamicLabel = new Label()
+                                                     select (item, dynamicLabel))
+                {
+                    dynamicLabel.Text = item.Key + "|||| Distance=" + item.Value + "KM";
+                    topFive.Controls.Add(dynamicLabel);
+                }
             }
         }
 

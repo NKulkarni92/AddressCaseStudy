@@ -97,7 +97,7 @@ namespace AddressCaseStudy.Controller
         {
             ObjectCache cache = MemoryCache.Default;
             var cachedObject = (Dictionary<string, int>)cache["distanceCache"];
-            if (cachedObject == null)
+            if (cachedObject == null && addressFromTXT!=null && !string.IsNullOrEmpty(fileName))
             {
                 CacheItemPolicy policy = new CacheItemPolicy();
                 policy.AbsoluteExpiration = DateTimeOffset.Now.AddMinutes(60);
